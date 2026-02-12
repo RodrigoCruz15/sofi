@@ -15,7 +15,7 @@
 
     <div class="envelope-wrapper" id="envelopeWrapper">
         <button class="envelope" id="envelopeBtn" type="button" aria-label="Abrir carta de convite">
-            <img src="images/carta1.png" alt="Carta de convite" class="envelope-image">
+            <img src="Images/carta1.png" alt="Carta de convite" class="envelope-image">
         </button>
         
         <div class="envelope-hint">Clica no envelope</div>
@@ -24,7 +24,7 @@
     <div class="letter-focus" id="letterFocus">
         <div class="letter-focus-overlay"></div>
         <div class="letter-focus-content">
-            <img src="images/carta6.png" alt="Carta aberta" class="letter-focus-image">
+            <img src="Images/carta6.png" alt="Carta aberta" class="letter-focus-image">
             <div class="letter-focus-text">
                 <p class="letter-focus-title">Royal Invite</p>
                 <p class="letter-focus-body">Would Duchess Sofia accept being my Valentine and spending an exquisite day with me?</p>
@@ -33,10 +33,10 @@
             </div>
             <div class="letter-focus-buttons">
                 <button type="button" class="letter-btn-img" id="btnYes" aria-label="Sim">
-                    <img src="images/yes.png" alt="Yes">
+                    <img src="Images/yes.png" alt="Yes">
                 </button>
                 <button type="button" class="letter-btn-img" id="btnNo" aria-label="Não">
-                    <img src="images/no.png" alt="No">
+                    <img src="Images/no.png" alt="No">
                 </button>
             </div>
         </div>
@@ -69,7 +69,7 @@
         function criarBanana() {
             const img = document.createElement('img');
             img.className = 'banana';
-            img.src = 'images/banana.png';
+            img.src = 'Images/banana.png';
             img.alt = 'banana';
             img.style.left = Math.random() * 100 + 'vw';
             img.style.animationDuration = (3 + Math.random() * 3) + 's';
@@ -84,7 +84,7 @@
             if (envelopeOpen) return;
             envelopeOpen = true;
 
-            const frames = ['images/carta1.png', 'images/carta2.png', 'images/cart3.png', 'images/carta4.png', 'images/carta5.png'];
+            const frames = ['Images/carta1.png', 'Images/carta2.png', 'Images/cart3.png', 'Images/carta4.png', 'Images/carta5.png'];
             let index = 0;
 
             const intervalId = setInterval(() => {
@@ -113,7 +113,7 @@
         
 
         btnNo.addEventListener('mouseleave', () => {
-            if (btnNoImg) btnNoImg.src = 'images/no.png';
+            if (btnNoImg) btnNoImg.src = 'Images/no.png';
         });
 
         const fullscreenGif = document.getElementById('fullscreenGif');
@@ -121,10 +121,10 @@
         const fullscreenGifImg = document.getElementById('fullscreenGifImg');
 
         const noGifs = [
-            'images/angrymin.gif',
-            'images/badkitty.gif',
-            'images/no-hover.gif',
-            'images/cat.gif'
+            'Images/angrymin.gif',
+            'Images/badkitty.gif',
+            'Images/no-hover.gif',
+            'Images/cat.gif'
         ];
 
         btnNo.addEventListener('click', (e) => {
@@ -160,7 +160,7 @@
         });
 
         const yesGifs = [
-            'images/yesssss.gif'
+            'Images/yesssss.gif'
         ];
 
         const letterText = document.querySelector('.letter-focus-text');
@@ -193,7 +193,7 @@
                                         <p style="display: block; text-align: center; font-weight: bold; text-shadow: 0 1px 2px rgba(241, 210, 176, 0.8); color: #5C0120; margin-top: 150px;">
                                             I shall require your presence, fully prepared, at the <span class="destaque">fifth hour</span> of the afternoon.
                                         </p>
-                                        <img src="images/sofiAlface.png" alt="Foto adicional" style="display:block; margin: 40px auto 0 auto; max-width:30%; height:auto; border-radius:10px;">
+                                        <img src="Images/sofiAlface.png" alt="Foto adicional" style="display:block; margin: 40px auto 0 auto; max-width:30%; height:auto; border-radius:10px;">
                                     `;
 
 
