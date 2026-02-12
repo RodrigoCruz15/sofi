@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerta de Encontro!</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Montserrat:wght@700&family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<div class="fullscreen-gif" id="fullscreenGif">
+    <img src="" alt="GIF fullscreen" id="fullscreenGifImg">
+</div>
+<body>
+    <div class="bananas-container" id="bananas"></div>
+
+    <div class="envelope-wrapper" id="envelopeWrapper">
+        <button class="envelope" id="envelopeBtn" type="button" aria-label="Abrir carta de convite">
+            <img src="images/carta1.png" alt="Carta de convite" class="envelope-image">
+        </button>
+        <div class="envelope-hint">Clica no envelope</div>
+    </div>
+
+    <div class="letter-focus" id="letterFocus">
+        <div class="letter-focus-overlay"></div>
+        <div class="letter-focus-content">
+            <img src="images/carta6.png" alt="Carta aberta" class="letter-focus-image">
+            <div class="letter-focus-text">
+                <p class="letter-focus-title">Royal Invite</p>
+                <p class="letter-focus-body">Would Duchess Sofia accept being my Valentine and spending an exquisite day with me?</p>
+                <p class="letter-focus-sign">With estime,</p>
+                <p class="letter-focus-sign">Your Dearest</p>
+            </div>
+            <div class="letter-focus-buttons">
+                <button type="button" class="letter-btn-img" id="btnYes" aria-label="Sim">
+                    <img src="images/yes.png" alt="Yes">
+                </button>
+                <button type="button" class="letter-btn-img" id="btnNo" aria-label="Não">
+                    <img src="images/no.png" alt="No">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        const btnYes = document.getElementById('btnYes');
+
+        const letterTitle = document.querySelector('.letter-focus-title');
+        const letterBody = document.querySelector('.letter-focus-body');
+        const letterSign = document.querySelector('.letter-focus-sign');
+
+        const firstNoClickNoScale = 0.5;   // primeira vez, botão "Não" fica 50% do tamanho
+        const firstNoClickYesScale = 1.8;  // primeira vez, botão "Sim" aumenta bastante
+        const noScaleStep = 0.1;           // cliques seguintes: diminuição 10%
+        const yesScaleStep = 1.5;          // cliques seguintes: aumento 10%
+        const noMinScale = 0.2;            // mínimo do botão "Não"
+        const yesMaxScale = 10;              // máximo do botão "Sim"
+
+        let firstClickDone = false;        // controlo do primeiro clique
+
+        const bananasContainer = document.getElementById('bananas');
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
+        const envelopeBtn = document.getElementById('envelopeBtn');
+        const envelopeImg = document.querySelector('.envelope-image');
+        const letterFocus = document.getElementById('letterFocus');
+        let envelopeOpen = false;
+
+        function criarBanana() {
+            const img = document.createElement('img');
+            img.className = 'banana';
+            img.src = 'images/banana.png';
+            img.alt = 'banana';
+            img.style.left = Math.random() * 100 + 'vw';
+            img.style.animationDuration = (3 + Math.random() * 3) + 's';
+            bananasContainer.appendChild(img);
+
+            setTimeout(() => img.remove(), 7000);
+        }
+
+        setInterval(criarBanana, 300);
+
+        envelopeBtn.addEventListener('click', () => {
+            if (envelopeOpen) return;
+            envelopeOpen = true;
+
+            const frames = ['images/carta1.png', 'images/carta2.png', 'images/cart3.png', 'images/carta4.png', 'images/carta5.png'];
+            let index = 0;
+
+            const intervalId = setInterval(() => {
+                index++;
+                if (index >= frames.length) {
+                    clearInterval(intervalId);
+                    // Mostrar carta6 com fundo escuro
+                    setTimeout(() => {
+                        envelopeWrapper.classList.add('hidden');
+                        letterFocus.classList.add('visible');
+                    }, 1);
+                    return;
+                }
+                envelopeImg.src = frames[index];
+            }, 300);
+        });
+
+        
+
+        const btnNo = document.getElementById('btnNo');
+        const btnNoImg = btnNo.querySelector('img');
+
+        let currentX = 0;
+        let currentY = 0;
+
+        
+
+        btnNo.addEventListener('mouseleave', () => {
+            if (btnNoImg) btnNoImg.src = 'images/no.png';
+        });
+
+        const fullscreenGif = document.getElementById('fullscreenGif');
+
+        const fullscreenGifImg = document.getElementById('fullscreenGifImg');
+
+        const noGifs = [
+            'images/angrymin.gif',
+            'images/badkitty.gif',
+            'images/no-hover.gif',
+            'images/cat.gif'
+        ];
+
+        btnNo.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            // GIF aleatório
+            const randomGif = noGifs[Math.floor(Math.random() * noGifs.length)];
+            fullscreenGifImg.src = randomGif;
+            fullscreenGif.classList.add('visible');
+
+            setTimeout(() => {
+                fullscreenGif.classList.remove('visible');
+                fullscreenGifImg.src = '';
+
+                // Se é o primeiro clique
+                if (!firstClickDone) {
+                    noScale = firstNoClickNoScale;
+                    yesScale = firstNoClickYesScale;
+                    firstClickDone = true;
+                } else {
+                    // cliques seguintes
+                    noScale *= noScaleStep;
+                    if (noScale < noMinScale) noScale = noMinScale;
+
+                    yesScale *= yesScaleStep;
+                    if (yesScale > yesMaxScale) yesScale = yesMaxScale;
+                }
+
+                // Aplica transformações
+                btnNo.style.transform = `scale(${noScale})`;
+                btnYes.style.transform = `scale(${yesScale})`;
+            }, 3000);
+        });
+
+        const yesGifs = [
+            'images/yesssss.gif'
+        ];
+
+        const letterText = document.querySelector('.letter-focus-text');
+        const btnYesEl = document.getElementById('btnYes');
+        const btnNoEl = document.getElementById('btnNo');
+
+        document.getElementById('btnYes').addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            // Escolher GIF aleatório
+            const randomGif = yesGifs[Math.floor(Math.random() * yesGifs.length)];
+            fullscreenGifImg.src = randomGif;
+
+            // Mostrar overlay do GIF
+            fullscreenGif.classList.add('visible');
+            fullscreenGifImg.style.opacity = 1;
+
+            // Após 3 segundos: fade-out do GIF
+            setTimeout(() => {
+                fullscreenGifImg.style.opacity = 0;
+
+                // Depois do fade (500ms)
+                setTimeout(() => {
+                    // Esconder GIF
+                    fullscreenGif.classList.remove('visible');
+                    fullscreenGifImg.src = '';
+
+                    // Atualizar texto da carta
+                    letterText.innerHTML = `
+                                        <p style="display: block; text-align: center; font-weight: bold; text-shadow: 0 1px 2px rgba(241, 210, 176, 0.8); color: #5C0120; margin-top: 150px;">
+                                            I shall require your presence, fully prepared, at the <span class="destaque">fifth hour</span> of the afternoon.
+                                        </p>
+                                        <img src="images/sofiAlface.png" alt="Foto adicional" style="display:block; margin: 40px auto 0 auto; max-width:30%; height:auto; border-radius:10px;">
+                                    `;
+
+
+
+
+
+                    // Esconder os botões
+                    btnYesEl.style.display = 'none';
+                    btnNoEl.style.display = 'none';
+
+                    // Carta continua visível
+                    letterFocus.classList.add('visible');
+                }, 500);
+            }, 3000);
+        });
+
+
+
+
+
+    </script>
+</body>
+</html>
